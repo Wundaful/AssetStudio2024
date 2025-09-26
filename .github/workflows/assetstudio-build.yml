@@ -1,4 +1,4 @@
-name: Build AssetStudio
+name: Build AssetStudioGUI
 
 on:
   workflow_dispatch:
@@ -15,11 +15,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Build solution
-        run: dotnet build AssetStudio.sln -c Release
+      - name: Build AssetStudioGUI
+        run: dotnet build AssetStudioGUI/AssetStudioGUI.csproj -c Release
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: AssetStudio-Build
+          name: AssetStudioGUI-Build
           path: AssetStudioGUI/bin/Release/net8.0-windows/
