@@ -1,24 +1,25 @@
+name: Build AssetStudio
+
+on:
+  workflow_dispatch:
+
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v4
+      - name: Build solution
+        run: dotnet build AssetStudio.sln -c Release
 
-    - name: Setup .NET
-      uses: actions/setup-net@v4
-      with:
-        dotnet-version: '8.0.x' 
-
-
-    - name: Restore NuGet packages
-      run: nuget restore YourSolution.sln
-
-
-    - name: Build solution
-      run: msbuild YourSolution.sln /p:Configuration=Release
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: AssetStudio-Build
+          path: AssetStudioGUI/bin/Release/net8.0-windows/
